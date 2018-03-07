@@ -7,6 +7,11 @@ definitions as they show up in the code. This will help you understand the
 function defintions since you get a little more context. Jump to the __main__
 portion of this code and start reading!"""
 
+def led_callback(client, userdata, message):
+	#check if message is "a"
+	str(message.payload)== ''
+	#if it is, turn on
+
 #Custom callbacks need to be structured with three args like on_message()
 def custom_callback(client, userdata, message):
     #the third argument is 'message' here unlike 'msg' in on_message 
@@ -33,6 +38,8 @@ def on_connect(client, userdata, flags, rc):
     #subscribe to the topic. Then, add the callback.
     client.subscribe("anrg-pi0/customCallback")
     client.message_callback_add("anrg-pi0/customCallback", custom_callback)
+    client.subscribe("anrg-pi13/led")
+    client.message_callback_add("anrg-pi13/led", led_callback)
 
 
 """This object (functions are objects!) serves as the default callback for 
