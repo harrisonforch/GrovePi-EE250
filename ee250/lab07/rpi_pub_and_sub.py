@@ -28,15 +28,14 @@ def led_callback(client, userdata, message):
         digitalWrite(led,0)
 
 
-#def lcd_callback(client, userdata, message):
-    #print message to lcd
+def lcd_callback(client, userdata, message):
+    print ("essage to lcd")
     #code to be added later
 
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload))
-
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
