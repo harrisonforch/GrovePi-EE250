@@ -1,7 +1,8 @@
 """EE 250L Lab 07 Skeleton Code
 
 Run rpi_pub_and_sub.py on your Raspberry Pi."""
-
+import sys
+import grovepi
 import paho.mqtt.client as mqtt
 import time
 #from pynput import keyboard
@@ -17,7 +18,7 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
 def led_callback(client, userdata, message):
-      led = 4
+    led = 4
     pinMode(led,"OUTPUT")
     msg = str(message.payload)
     if msg == "LED_ON":
