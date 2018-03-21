@@ -30,7 +30,7 @@ def led_callback(client, userdata, message):
         digitalWrite(led,0)
 
 
-#def lcd_callback(client, userdata, message):
+def lcd_callback(client, userdata, message):
     #print message to lcd
     #code to be added later
 
@@ -47,10 +47,8 @@ if __name__ == '__main__':
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
-
     while True:
         print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(2))
         time.sleep(1)
-            
 
