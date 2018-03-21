@@ -16,11 +16,9 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi13/led", led_callback)
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
-
 def led_callback(client, userdata, message):
     led = 4
     pinMode(led,"OUTPUT")
-
     msg = str(message.payload)
     if msg == "LED_ON":
         #turn on LED
@@ -30,7 +28,7 @@ def led_callback(client, userdata, message):
         digitalWrite(led,0)
 
 
-def lcd_callback(client, userdata, message):
+#def lcd_callback(client, userdata, message):
     #print message to lcd
     #code to be added later
 
