@@ -11,15 +11,28 @@ def on_connect(client, userdata, flags, rc):
 
     #subscribe to topics of interest here
     client.subscribe("anrg-pi13/led")
-    client.subscribe("anrg-pi13/lcd")
     client.subscribe("anrg-pi13/ultrasonicRanger")
+    client.subscribe("anrg-pi13/lcd")
     client.message_callback_add("anrg-pi13/led", led_callback)
-    client.message_callback_add("anrg-pi13/ultraSonicRanger", ultraSonic_callback)
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
 
 def led_callback(client, userdata, message):
-    
+    led = 4
+    pinMode(led,"OUTPUT")
+
+    msg = str(message.payload)
+    if msg == "LED_ON":
+        #turn on LED
+        digitalWrite(led,1)
+    elif msg == "LED_OFF":
+        #turn off LED
+        digitalWrite(led,0)
+
+
+def lcd_callback(client, userdata, message):
+    #print message to lcd
+
 
 
 #Default message callback. Please use custom callbacks.
@@ -37,6 +50,7 @@ if __name__ == '__main__':
 
     while True:
         print("delete this line")
+        client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(2))
         time.sleep(1)
             
 
