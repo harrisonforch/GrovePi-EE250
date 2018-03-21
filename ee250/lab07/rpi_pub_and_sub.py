@@ -25,9 +25,11 @@ def led_callback(client, userdata, message):
     if msg == "LED_ON":
         #turn on LED
         digitalWrite(led,1)
+        print("TURN ON")
     elif msg == "LED_OFF":
         #turn off LED
         digitalWrite(led,0)
+        print("TURN OFF")
 
 
 def lcd_callback(client, userdata, message):
