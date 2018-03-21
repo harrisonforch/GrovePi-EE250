@@ -30,9 +30,9 @@ def led_callback(client, userdata, message):
         digitalWrite(led,0)
 
 
-def lcd_callback(client, userdata, message):
+#def lcd_callback(client, userdata, message):
     #print message to lcd
-
+    #code to be added later
 
 
 #Default message callback. Please use custom callbacks.
