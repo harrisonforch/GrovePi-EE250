@@ -63,6 +63,7 @@ if __name__ == '__main__':
     while True:
         try:
             client.publish("anrg-pi13/button", grovepi.digitalRead(button))
+
         print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
         time.sleep(1)
