@@ -62,7 +62,8 @@ if __name__ == '__main__':
     button = 3
 
     grovepi.pinMode(led,"OUTPUT")
-    #setRGB(0, 0, 0)
+
+   # setRGB(0, 0, 0)
     grovepi.pinMode(button, "INPUT")
 
     client = mqtt.Client()
@@ -72,8 +73,13 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
+<<<<<<< HEAD
         #try:
             #client.publish("anrg-pi13/button", grovepi.digitalRead(button))
+=======
+       # try:
+        #    client.publish("anrg-pi13/button", grovepi.digitalRead(button))
+>>>>>>> 25bd2b2da67b497e6d9d8bd8408704d7e9cdd1f1
 
         print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
