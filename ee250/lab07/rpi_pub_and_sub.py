@@ -80,6 +80,5 @@ if __name__ == '__main__':
 
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
         #print("published!")
-        button_val = grovepi.digitalRead(button)
         time.sleep(1)
 
