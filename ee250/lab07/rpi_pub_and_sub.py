@@ -59,27 +59,29 @@ def lcd_callback(client, userdata, message):
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
 
+    #setting up where things are and ports
     led = 4
     ultrasonic = 2
     button = 3
     button_val = grovepi.digitalRead(button)
 
+    #sets inputs outputs, lcd color
     grovepi.pinMode(led,"OUTPUT")
     setRGB(0,64,128)
     grovepi.pinMode(button, "INPUT")
 
+    #sets client
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
     client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
     client.loop_start()
 
+    #publishing
     while True:
-        #print("delete this line")
         if button_val != grovepi.digitalRead(button):
             client.publish("anrg-pi13/button", "Button Pressed!")
 
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
-        #print("published!")
         time.sleep(1)
 

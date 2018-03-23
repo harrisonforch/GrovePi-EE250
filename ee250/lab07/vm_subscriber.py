@@ -21,8 +21,7 @@ def button_callback(client, userdata, msg):
     print("Button Pressed!")
 
 def ultraSonic_callback(client, userdata, message):
-        print("here")
-        print("Ultrasonic Read: " + str(message.payload, "utf-8"))
+    print("Ultrasonic Read: " + str(message.payload, "utf-8"))
 
 
 #Default message callback. Please use custom callbacks.
