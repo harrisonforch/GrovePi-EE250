@@ -74,7 +74,7 @@ if __name__ == '__main__':
 
     while True:
         print("delete this line")
-        client.publish("anrg-pi13/ultraSonic_callback", grovepi.ultrasonicRead(ultrasonic))
+        client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
         print("published!")
         time.sleep(1)
 
