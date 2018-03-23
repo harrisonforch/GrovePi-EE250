@@ -40,7 +40,7 @@ def on_message(client, userdata, msg):
 def led_callback(client, userdata, msg):
     led = 4
     print("here")
-    message = str(msg.paylaod)
+    message = str(msg.payload)
     if message == "LED_ON":
         #turn on LED
         digitalWrite(led,1)
