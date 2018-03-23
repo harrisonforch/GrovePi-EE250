@@ -39,17 +39,14 @@ def on_message(client, userdata, msg):
 
 def led_callback(client, userdata, msg):
     led = 4
-    print("here")
     message = str(msg.payload)
     print(message)
     if message == "b'LED_ON'":
         #turn on LED
         digitalWrite(led,1)
-        print("TURN ON")
     elif message == "b'LED_OFF'":
         #turn off LED
         digitalWrite(led,0)
-        print("TURN OFF")
 
 
 def lcd_callback(client, userdata, message):
@@ -77,6 +74,8 @@ if __name__ == '__main__':
 
     while True:
         #print("delete this line")
+        try:
+             print(grovepi.digitalRead(button))
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
         #print("published!")
         time.sleep(1)

@@ -17,7 +17,7 @@ def on_connect(client, userdata, flags, rc):
 
 def ultraSonic_callback(client, userdata, message):
         print("here")
-        print("Ultrasonic Read: " + str(message.payload))
+        print("Ultrasonic Read: " + str(message.payload, "utf-8"))
 
 
 #Default message callback. Please use custom callbacks.
