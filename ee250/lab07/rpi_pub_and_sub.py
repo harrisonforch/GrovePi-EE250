@@ -60,6 +60,7 @@ if __name__ == '__main__':
     led = 4
     ultrasonic = 2
     button = 3
+    button_val = grovepi.digitalRead(button)
 
     grovepi.pinMode(led,"OUTPUT")
 
@@ -74,9 +75,11 @@ if __name__ == '__main__':
 
     while True:
         #print("delete this line")
-        try:
-             print(grovepi.digitalRead(button))
+        if button_val != grovepi.digitalRead(button):
+            client.publish("anrg-pi13/button", "Button Pressed!")
+
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
         #print("published!")
+        button_val = grovepie.digitalRead(button)
         time.sleep(1)
 

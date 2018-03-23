@@ -11,9 +11,14 @@ def on_connect(client, userdata, flags, rc):
 
     #subscribe to the ultrasonic ranger topic here
     client.subscribe("anrg-pi13/ultrasonicRanger")
+    client.subscribe("anrg-pi13/button")
     client.message_callback_add("anrg-pi13/ultrasonicRanger", ultraSonic_callback)
+    client.message_callback_add("anrg-pi13/button", button_callback)
 
 
+
+def button_callback(client, userdata, msg):
+    print("Button Pressed!")
 
 def ultraSonic_callback(client, userdata, message):
         print("here")

@@ -12,17 +12,13 @@ def on_connect(client, userdata, flags, rc):
     #subscribe to topics of interest here
 
     client.subscribe("anrg-pi13/led")
-    client.subscribe("anrg-pi13/button")
     client.subscribe("anrg-pi13/lcd")
-    client.message_callback_add("anrg-pi13/button", button_callback)
+    
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload))
 
-
-def button_callback(client, userdata, msg):
-    print("Button Pressed!")
 
 
 def on_press(key):
