@@ -51,7 +51,7 @@ def led_callback(client, userdata, msg):
 
 def lcd_callback(client, userdata, message):
     print ("message to lcd" + str(message.payload))
-    #setText_norefresh(str(message.payload))
+    setText_norefresh(str(message.payload))
     #code to be added later
 
 if __name__ == '__main__':
@@ -64,7 +64,7 @@ if __name__ == '__main__':
 
     grovepi.pinMode(led,"OUTPUT")
 
-   # setRGB(0, 0, 0)
+    setRGB(0,128,64)
     grovepi.pinMode(button, "INPUT")
 
     client = mqtt.Client()
