@@ -26,6 +26,17 @@ def on_connect(client, userdata, flags, rc):
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
 
+def on_message(client, userdata, msg):
+    """The paho-mqtt library typically converts message payloads into a *byte* 
+    string before a message is sent, even if you send an int or a float. Python
+    will not convert the payload into a string for printing, so you will have
+    to convert it manually. Yes, a *byte* string is different from a string in
+    python! Python's approach to strings is very different from C/C++. You'll 
+    have to look this one up on your own to better understand python strings."""
+    print("on_message: " + msg.topic + " " + str(msg.payload))
+    print("on_message: msg.payload is of type " + str(type(msg.payload)))
+
+
 def led_callback(client, userdata, msg):
     led = 4
     if str(msg.payload) == "LED_ON":
@@ -51,7 +62,11 @@ if __name__ == '__main__':
     button = 3
 
     grovepi.pinMode(led,"OUTPUT")
+<<<<<<< HEAD
    # setRGB(0, 0, 0)
+=======
+    #setRGB(0, 0, 0)
+>>>>>>> aafcd933d3d7cc817040909d48719ed7c56d7698
     grovepi.pinMode(button, "INPUT")
 
     client = mqtt.Client()
