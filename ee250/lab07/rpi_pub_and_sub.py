@@ -13,19 +13,12 @@ def on_connect(client, userdata, flags, rc):
 
     #subscribe to topics of interest here
     client.subscribe("anrg-pi13/led")
-<<<<<<< HEAD
     client.subscribe("anrg-pi13/lcd")
     client.subscribe("anrg-pi13/ultrasonicRanger")
     client.message_callback_add("anrg-pi13/led", led_callback)
-    client.message_callback_add("anrg-pi13/ultraSonicRanger", ultraSonic_callback)
+ 
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
-=======
-    client.subscribe("anrg-pi13/ultrasonicRanger")
-    client.subscribe("anrg-pi13/lcd")
-    client.message_callback_add("anrg-pi13/led", led_callback)
-    client.message_callback_add("anrg-pi13/lcd", lcd_callback)
->>>>>>> 156b6c9f541437eb6e5dd05e9347e889a1489836
 
 def led_callback(client, userdata, message):
     led = 4
@@ -42,7 +35,7 @@ def led_callback(client, userdata, message):
 
 
 def lcd_callback(client, userdata, message):
-    print ("essage to lcd")
+    print ("message to lcd")
     #code to be added later
 
 

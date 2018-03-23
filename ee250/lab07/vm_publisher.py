@@ -10,14 +10,10 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to topics of interest here
-<<<<<<< HEAD
-    client.subscribe("anrg-pi13/led")
-    client.subscribe("anrg-pi13/lcd")
-=======
-    client.subscribe("anrg-pi13/lcd")
-    client.subscribe("anrg-pi13/led")
 
->>>>>>> 156b6c9f541437eb6e5dd05e9347e889a1489836
+    client.subscribe("anrg-pi13/led")
+    client.subscribe("anrg-pi13/lcd")
+
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload))
@@ -34,7 +30,7 @@ def on_press(key):
     
     if k == 'w':
         print("w")
-<<<<<<< HEAD
+
         client.publish("anrg-pi13/lcd" , "w")
     elif k == 'a':
         print("a")
@@ -52,27 +48,7 @@ def on_press(key):
         client.publish("anrg-pi13/lcd" , "s")
         # send "LED_OFF"
         client.publish("anrg-pi13/led" , "LED_OFF")
-=======
-        #send "w" character to rpi
-        client.publish("anrg-pi13/lcd", "w")
-    elif k == 'a':
-        print("a")
-        # send "a" character to rpi
-        client.publish("anrg-pi13/lcd", "a")
-        #send "LED_ON"
-        client.publish("anrg-pi13/led", "LED_ON")
-    elif k == 's':
-        print("s")
-        # send "s" character to rpi
-        client.publish("anrg-pi13/lcd", "s")
-    elif k == 'd':
-        print("d")
-        # send "d" character to rpi
-        client.publish("anrg-pi13/lcd", "d")
-        # send "LED_OFF"
-        client.publish("anrg-pi13/led", "LED_OFF")
 
->>>>>>> 156b6c9f541437eb6e5dd05e9347e889a1489836
 if __name__ == '__main__':
     #setup the keyboard event listener
     lis = keyboard.Listener(on_press=on_press)
