@@ -62,11 +62,8 @@ if __name__ == '__main__':
     button = 3
 
     grovepi.pinMode(led,"OUTPUT")
-<<<<<<< HEAD
+
    # setRGB(0, 0, 0)
-=======
-    #setRGB(0, 0, 0)
->>>>>>> aafcd933d3d7cc817040909d48719ed7c56d7698
     grovepi.pinMode(button, "INPUT")
 
     client = mqtt.Client()
