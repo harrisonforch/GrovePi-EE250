@@ -33,12 +33,13 @@ def on_message(client, userdata, msg):
     to convert it manually. Yes, a *byte* string is different from a string in
     python! Python's approach to strings is very different from C/C++. You'll 
     have to look this one up on your own to better understand python strings."""
-    print("on_message: " + msg.topic + " " + str(msg.payload))
-    print("on_message: msg.payload is of type " + str(type(msg.payload)))
+    #print("on_message: " + msg.topic + " " + str(msg.payload))
+    #print("on_message: msg.payload is of type " + str(type(msg.payload)))
 
 
 def led_callback(client, userdata, msg):
     led = 4
+    print("here")
     if str(msg.payload) == "LED_ON":
         #turn on LED
         digitalWrite(led,1)
@@ -73,8 +74,8 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        print("delete this line")
+        #print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
-        print("published!")
+        #print("published!")
         time.sleep(1)
 

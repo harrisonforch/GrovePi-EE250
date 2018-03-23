@@ -10,8 +10,8 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to the ultrasonic ranger topic here
-    client.subscribe("anrg-pi13/ultrasonic_Ranger")
-    client.message_callback_add("anrg-pi13/ultraSonicRanger", ultraSonic_callback)
+    client.subscribe("anrg-pi13/ultrasonicRanger")
+    client.message_callback_add("anrg-pi13/ultrasonicRanger", ultraSonic_callback)
 
 
 
