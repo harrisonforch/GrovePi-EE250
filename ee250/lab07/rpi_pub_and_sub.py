@@ -10,10 +10,12 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
     #subscribe to topics of interest here
-    client.Subscribe("anrg-pi13/led")
-    client.Subscribe("anrg-pi13/ultrasonicRanger")
+    client.subscribe("anrg-pi13/led")
+    client.subscribe("anrg-pi13/lcd")
+    client.subscribe("anrg-pi13/ultrasonicRanger")
     client.message_callback_add("anrg-pi13/led", led_callback)
     client.message_callback_add("anrg-pi13/ultraSonicRanger", ultraSonic_callback)
+    client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
 
 def led_callback(client, userdata, message):
