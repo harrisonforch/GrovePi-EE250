@@ -50,7 +50,7 @@ def led_callback(client, userdata, msg):
 
 
 def lcd_callback(client, userdata, message):
-    print ("message to lcd" + str(message.payload))
+    print ("message to lcd" + str(message.payload, "utf-8"))
     msg = str(message.payload, "utf-8")
     print(msg)
     setText(msg)
@@ -65,7 +65,7 @@ if __name__ == '__main__':
     button_val = grovepi.digitalRead(button)
 
     grovepi.pinMode(led,"OUTPUT")
-
+    setRGB(0,64,128)
     grovepi.pinMode(button, "INPUT")
 
     client = mqtt.Client()
