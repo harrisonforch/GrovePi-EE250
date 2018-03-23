@@ -51,7 +51,7 @@ def led_callback(client, userdata, msg):
 
 def lcd_callback(client, userdata, message):
     print ("message to lcd" + str(message.payload))
-    setText_norefresh(str(message.payload))
+    #setText_norefresh(str(message.payload))
     #code to be added later
 
 if __name__ == '__main__':
@@ -72,8 +72,8 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        try:
-            client.publish("anrg-pi13/button", grovepi.digitalRead(button))
+        #try:
+            #client.publish("anrg-pi13/button", grovepi.digitalRead(button))
 
         print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
