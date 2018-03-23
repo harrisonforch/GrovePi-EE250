@@ -53,7 +53,7 @@ def lcd_callback(client, userdata, message):
     print ("message to lcd" + str(message.payload, "utf-8"))
     msg = str(message.payload, "utf-8")
     print(msg)
-    setText(msg)
+    setText_norefresh(msg)
     #code to be added later
 
 if __name__ == '__main__':
