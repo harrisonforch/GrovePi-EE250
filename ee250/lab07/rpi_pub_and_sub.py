@@ -22,6 +22,7 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("anrg-pi13/button")
     client.subscribe("anrg-pi13/lcd")
     client.subscribe("anrg-pi13/ultrasonicRanger")
+    client.message_callback_add("anrg-pi13/ultraSonicRanger", ultraSonic_callback)
     client.message_callback_add("anrg-pi13/led", led_callback)
     client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
@@ -73,11 +74,8 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
-        #try:
-            #client.publish("anrg-pi13/button", grovepi.digitalRead(button))
-
-
         print("delete this line")
         client.publish("anrg-pi13/ultrasonicRanger", grovepi.ultrasonicRead(ultrasonic))
+        print("published!")
         time.sleep(1)
 
