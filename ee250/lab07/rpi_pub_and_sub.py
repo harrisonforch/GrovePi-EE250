@@ -5,6 +5,7 @@ Run rpi_pub_and_sub.py on your Raspberry Pi."""
 import grovepi
 import paho.mqtt.client as mqtt
 import time
+<<<<<<< HEAD
 import sys
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `from grovepi import *`
@@ -13,6 +14,8 @@ sys.path.append('../../Software/Python/')
 from grovepi import *
 from grove_rgb_lcd import *
 #from pynput import keyboard
+=======
+>>>>>>> d337d6c5dea7f9c1548d75e6ac3f66e7883e315d
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
@@ -27,6 +30,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, msg):
+<<<<<<< HEAD
     """The paho-mqtt library typically converts message payloads into a *byte* 
     string before a message is sent, even if you send an int or a float. Python
     will not convert the payload into a string for printing, so you will have
@@ -55,6 +59,9 @@ def lcd_callback(client, userdata, message):
     print(msg)
     setText_norefresh(msg)
     #code to be added later
+=======
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
+>>>>>>> d337d6c5dea7f9c1548d75e6ac3f66e7883e315d
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py

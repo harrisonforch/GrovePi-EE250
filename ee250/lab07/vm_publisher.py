@@ -17,7 +17,7 @@ def on_connect(client, userdata, flags, rc):
 
 #Default message callback. Please use custom callbacks.
 def on_message(client, userdata, msg):
-    print("on_message: " + msg.topic + " " + str(msg.payload))
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 
 
