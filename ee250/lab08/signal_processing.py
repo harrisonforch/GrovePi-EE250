@@ -13,6 +13,8 @@ ultrasonic_ranger2_topic = "ultrasonic_ranger2"
 MAX_LIST_LENGTH = 100
 ranger1_dist = []
 ranger2_dist = []
+moving_avg_ranger1 = []
+moving_avg_ranger2 = []
 
 ranger1_avg = []
 ranger2_avg = []
@@ -25,11 +27,17 @@ ranger2_state = 0
 
 def ranger1_callback(client, userdata, msg):
     global ranger1_dist
+<<<<<<< HEAD
     global ranger1_avg
     count_1 = count_1 + 1
+=======
+    global moving_avg_ranger1
+>>>>>>> sp18-master
     ranger1_dist.append(int(msg.payload))
+
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
+<<<<<<< HEAD
     avg = 0
 
     for i in ranger1_dist:
@@ -52,6 +60,29 @@ def ranger2_callback(client, userdata, msg):
     avg /= MAX_LIST_LENGTH
     ranger2_avg.append(avg)
     ranger2_avg = ranger2_avg[-MAX_LIST_LENGTH:]
+=======
+    moving_avg_ranger1 = moving_avg_ranger1[-MAX_LIST_LENGTH]
+
+     x = 0
+    for i in ranger1_dist:
+    	x += i
+    x /= MAX_LIST_LENGTH
+    moving_avg_ranger1.append(x)
+
+def ranger2_callback(client, userdata, msg):
+    global ranger2_dist
+    global moving_avg_ranger2
+    ranger2_dist.append(int(msg.payload))
+    #truncate list to only have the last MAX_LIST_LENGTH values
+    ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
+    moving_avg_ranger2 = moving_avg_ranger2[-MAX_LIST_LENGTH]
+
+    x = 0
+    for i in ranger2_dist:
+    	x += i
+    x /= MAX_LIST_LENGTH
+    moving_avg_ranger2.append(x)
+>>>>>>> sp18-master
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -65,6 +96,38 @@ def on_connect(client, userdata, flags, rc):
 # This should not be called.
 def on_message(client, userdata, msg): 
     print(msg.topic + " " + str(msg.payload))
+
+def classify_mvmnt_ranger():
+	firstVal1 = moving_avg_ranger1[MAX_LIST_LENGTH]
+	#checks ranger 1
+	for i in reversed(moving_avg_ranger1[:25]):
+		#case 1: person standing still on the left
+		if (-2 <= firstVal1 - i <= 2):
+			#checking if person is standing still on the right
+			firstVal2 = moving_avg_ranger2[MAX_LIST_LENGTH]
+			pos = 0
+			neg = 0
+			for j in reversed(moving_avg_ranger2[:25]):
+
+				#checking if person is standing still on the right
+				if (-2 <= firstVal2 - j <= 2):
+					#where are you standing still
+					distance = ranger1_dist[MAX_LIST_LENGTH] - ranger2_dist[MAX_LIST_LENGTH]
+					if distance >= 80:
+						return "standing still, right"
+					elif distance <= -80:
+						return "standing still, left"
+					else:
+						return "standing still, middle"
+				#finding the direction of moving
+				if (firstval2 - j >= 5):
+					pos++
+				else:
+					neg++
+
+				if pos > neg:
+					return "moving "
+
 
 if __name__ == '__main__':
     # Connect to broker and start loop    
@@ -87,6 +150,7 @@ if __name__ == '__main__':
         ~125cm. """
         
         # TODO: detect movement and/or position
+<<<<<<< HEAD
 
 
         #proccessing data 1
@@ -147,6 +211,8 @@ if __name__ == '__main__':
             elif(slope_2 > slope_1):
                 print("Standing Still, Left")
         
+=======
+>>>>>>> sp18-master
         print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
             str(ranger2_dist[-1:])) 
         
