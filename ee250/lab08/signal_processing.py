@@ -26,7 +26,7 @@ ranger2_state = 0
 def ranger1_callback(client, userdata, msg):
     global ranger1_dist
     global ranger1_avg
-    count_1 ++
+    count_1++
     ranger1_dist.append(int(msg.payload))
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
@@ -88,6 +88,7 @@ if __name__ == '__main__':
 
         #proccessing data 1
         current_count = count_1 + 1
+        count_1 = 0
         current_numb = ranger1_avg[MAX - current_count]
         slope_1 = 0
         for i in range (1, current_count):
@@ -95,7 +96,7 @@ if __name__ == '__main__':
         slope_1 /= current_count
 
         #analyzing data
-        if (2 <= ((((slope_1)  * current_count) - current_numb) / (current_count - 1)) - current_numb  <= 2) :
+        if (-2 <= ((((slope_1)  * current_count) - current_numb) / (current_count - 1)) - current_numb  <= 2) :
         	ranger1_state = 0
         elif slope_1 < current_numb:
         	ranger1_state = 1
@@ -104,6 +105,7 @@ if __name__ == '__main__':
 
         #proccessing data 2
         current_count = count_2 + 1
+        count_2 = 0
         current_numb = ranger2_avg[MAX - current_count]
         slope_2 = 0
         for i in range (0, current_count):
@@ -123,18 +125,22 @@ if __name__ == '__main__':
         #final data analysis
 
         #walking close toward ranger1
-        if(ranger1_state == 1)
+        if(ranger1_state == 1):
+            print("Walking Left")
         #walking toward ranger 2
-        elif(ranger2_state == 1)
+        elif(ranger2_state == 1):
+            print("Walking Right")
         #standing still
-        else(ranger1_state == 0 && ranger2_state == 0):
+        elif(ranger1_state == 0 && ranger2_state == 0):
         	#standing middle
-        	if(10 <= slope_1 - slope_2 <=10):
+        	if(-10 <= slope_1 - slope_2 <=10):
+                print("Standing Still, Middle")
         	#standing on right
         	elif(slope_1 > slope_2):
+                print("Standing Still, Right")
         	#standing on left
         	elif(slope_2 > slope_1):
-
+                print("Standing Still, Left")
         
         print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
             str(ranger2_dist[-1:])) 
