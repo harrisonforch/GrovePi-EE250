@@ -29,37 +29,33 @@ def ranger1_callback(client, userdata, msg):
     global ranger1_avg
     global count_1
     count_1 = count_1 + 1
+    cuttoff_1 = int(msg.payload)
+
+    if cuttoff_1 >= 200:
+        cuttoff_1 = 200
 
 
-    ranger1_dist.append(int(msg.payload)*2)
+    ranger1_dist.append(cuttoff_1)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
 
-
-    avg = 0
-    for i in ranger1_dist:
-        avg += i
-    avg /= MAX_LIST_LENGTH
-    ranger1_avg.append(avg)
-    ranger1_avg = ranger1_avg[-MAX_LIST_LENGTH:]
 
 def ranger2_callback(client, userdata, msg):
     global ranger2_dist
     global ranger2_avg
     global count_2
     count_2 = count_2 + 1
+    cuttoff_2 = int(msg.payload)
 
-    ranger2_dist.append(int(msg.payload))
+    if cuttoff_2 >= 200:
+        cuttoff_2 = 200
+
+
+    ranger2_dist.append(cuttoff_2)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
     
 
-    avg = 0
-    for i in ranger2_dist:
-        avg += i
-    avg /= MAX_LIST_LENGTH
-    ranger2_avg.append(avg)
-    ranger2_avg = ranger2_avg[-MAX_LIST_LENGTH:]
 
 
 
@@ -85,8 +81,8 @@ if __name__ == '__main__':
     client.connect(broker_hostname, broker_port, 60)
     client.loop_start()
 
-    ranger1_avg = [0] * 100
-    ranger2_avg = [0] * 100
+    ranger1_dist = [0] * 100
+    ranger2_dist = [0] * 100
 
     while True:
         """ You have two lists, ranger1_dist and ranger2_dist, which hold a window
@@ -103,12 +99,12 @@ if __name__ == '__main__':
 
         #proccessing data 1
         current_count = count_1 + 1
-        current_numb = ranger1_avg[MAX_LIST_LENGTH - current_count]
+        current_numb = ranger1_dist[MAX_LIST_LENGTH - current_count]
         slope_1 = 0
-        count_1 = 0
-        for i in range (1, current_count):
-            slope_1 += ranger1_avg[MAX_LIST_LENGTH - i]
+        for i in range (1, current_count + 1):
+            slope_1 += ranger1_dist[MAX_LIST_LENGTH - i]
         slope_1 /= current_count
+        count_1 = 0
 
         #analyzing data
         if(current_count != 1):
@@ -118,20 +114,33 @@ if __name__ == '__main__':
                 ranger1_state = 1
             else:
                 ranger1_state = -1
+        else:
+            if (-2 <= slope_1 - current_numb <=2):
+                ranger1_state = 0
+            elif slope_1 < current_numb:
+                ranger1_state = 1
+            else:
+                ranger1_state = -1
 
         #proccessing data 2
         current_count = count_2 + 1
-        current_numb = ranger2_avg[MAX_LIST_LENGTH - current_count]
+        current_numb = ranger2_dist[MAX_LIST_LENGTH - current_count]
         slope_2 = 0
-        count_2 = 0
-        for i in range (1, current_count):
-            slope_2 += ranger2_avg[MAX_LIST_LENGTH - i]
+        for i in range (1, current_count + 1):
+            slope_2 += ranger2_dist[MAX_LIST_LENGTH - i]
         slope_2 /= current_count
-
+        count_2 = 0
 
         #analyzing data
         if(current_count != 1):
             if (2 <= ((((slope_2)  * current_count) - current_numb) / (current_count - 1)) - current_numb  <= 2) :
+                ranger2_state = 0
+            elif slope_2 < current_numb:
+                ranger2_state = 1
+            else:
+                ranger2_state = -1
+        else:
+            if (-2 <= slope_2-current_numb <=2):
                 ranger2_state = 0
             elif slope_2 < current_numb:
                 ranger2_state = 1
