@@ -14,11 +14,11 @@ MAX_LIST_LENGTH = 5
 ranger1_dist = []
 ranger2_dist = []
 
-
+#moving average buffers
 ranger1_avg = []
 ranger2_avg = []
 
-
+#ranger states
 ranger1_state = 0
 ranger2_state = 0
 
@@ -33,6 +33,8 @@ def ranger1_callback(client, userdata, msg):
     ranger1_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
+
+    #adding variables into the moving average buffer
     avg = 0
     for i in ranger1_dist:
         avg += i
@@ -52,6 +54,8 @@ def ranger2_callback(client, userdata, msg):
     ranger2_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
+
+    #adding variables into the moving average buffer
     avg = 0
     for i in ranger2_dist:
         avg += i
