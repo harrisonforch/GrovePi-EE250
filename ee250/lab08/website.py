@@ -20,10 +20,11 @@ ranger1_dist = []
 ranger2_dist = []
 
 
+#moving average buffers
 ranger1_avg = []
 ranger2_avg = []
 
-
+#ranger states
 ranger1_state = 0
 ranger2_state = 0
 
@@ -38,6 +39,8 @@ def ranger1_callback(client, userdata, msg):
     ranger1_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
+
+    #populates moving average for ranger 1
     avg = 0
     for i in ranger1_dist:
         avg += i
@@ -57,6 +60,8 @@ def ranger2_callback(client, userdata, msg):
     ranger2_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
+
+    #populates moving average for ranger 2
     avg = 0
     for i in ranger2_dist:
         avg += i
@@ -88,6 +93,7 @@ if __name__ == '__main__':
     client.connect(broker_hostname, broker_port, 60)
     client.loop_start()
 
+    #initially populates the average
     ranger1_avg = [0] * MAX_LIST_LENGTH
     ranger2_avg = [0] * MAX_LIST_LENGTH
     message = "none"
@@ -177,8 +183,7 @@ if __name__ == '__main__':
             'event': message
             }
         
-        #print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
-            #str(ranger2_dist[-1:]))
+        #publishing the data
         response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,
                                  data = json.dumps(payload)) 
         
