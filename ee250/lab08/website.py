@@ -1,5 +1,10 @@
 import paho.mqtt.client as mqtt
 import time
+import requests
+import json
+from datetime import datetime
+import time
+
 
 # MQTT variables
 broker_hostname = "eclipse.usc.edu"
@@ -85,6 +90,16 @@ if __name__ == '__main__':
 
     ranger1_avg = [0] * MAX_LIST_LENGTH
     ranger2_avg = [0] * MAX_LIST_LENGTH
+    message = "none"
+
+    hdr = {
+        'Content-Type': 'application/json',
+        'Authorization': None #not using HTTP secure
+    }
+
+    # The payload of our message starts as a simple dictionary. Before sending
+    # the HTTP message, we will format this into a json object
+    
 
     while True:
         """ You have two lists, ranger1_dist and ranger2_dist, which hold a window
@@ -97,8 +112,7 @@ if __name__ == '__main__':
         
         # TODO: detect movement and/or position
 
-
-
+        
         #proccessing data 1
         current_numb = ranger1_avg[MAX_LIST_LENGTH - 1]
         slope_1 = 0
@@ -138,22 +152,34 @@ if __name__ == '__main__':
         #walking close toward ranger1
         if(ranger1_state == 1 or ranger2_state == -1):
             print("Walking Left")
+            message = "Walking Left"
         #walking toward ranger 2
         elif(ranger2_state == 1 or ranger1_state == -1):
             print("Walking Right")
+            message = "Walking Right"
         #standing still
         elif(ranger1_state == 0 and ranger2_state == 0):
             #standing middle
             if(-20 <= slope_1 - slope_2 <= 20):
                 print("Standing Still, Middle")
+                message = "Standing Still, Middle"
             #standing on right
             elif(slope_1 > slope_2):
                 print("Standing Still, Left")
+                message = "Standing Still, Left"
             #standing on left
             elif(slope_2 > slope_1):
                 print("Standing Still, Right")
+                message = "Standing Still, Right"
+
+        payload = {
+            'time': str(datetime.now()),
+            'event': message
+            }
         
         #print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
-            #str(ranger2_dist[-1:])) 
+            #str(ranger2_dist[-1:]))
+        response = requests.post("http://0.0.0.0:5000/post-event", headers = hdr,
+                                 data = json.dumps(payload)) 
         
         time.sleep(0.2)
