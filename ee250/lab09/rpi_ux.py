@@ -19,8 +19,9 @@ def on_connect(client, userdata, flags, rc):
 
 
 	client.subscribe("anrg-pi13/led")
+	client.message_callback_add("anrg-pi3/led", led_callback)
 	client.subscribe("anrg-pi0/lcd")
-	client.message_callback_add("anrg-pi0/customCallback", custom_callback)
+	client.message_callback_add("anrg-pi3/lcd", lcd_callback)
 
 def led_callback(client, userdata, message):
 	if str(message.payload, "utf-8")=="toggle":
