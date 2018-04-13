@@ -59,7 +59,22 @@ if __name__ == '__main__':
         sensor_1 = x-(person_width/2)+randint(-noise_factor,noise_factor)
         sensor_2 = max_distance-((x-person_width/2))++randint(-noise_factor,noise_factor)
 
+<<<<<<< HEAD
         client.publish("az/ultrasonic_ranger1", sensor_1)
         client.publish("az/ultrasonic_ranger2", sensor_2)
         print("Sensor 1:", sensor_1, " ........ Sensor 2:", sensor_2 )
         time.sleep(.2)
+=======
+<<<<<<< HEAD
+        client.publish("test/ultrasonic_ranger1", sensor_1)
+        client.publish("test/ultrasonic_ranger2", sensor_2)
+        print("Sensor 1:", sensor_1, " ........ Sensor 2:", sensor_2 )
+        time.sleep(.2)
+            
+=======
+        client.publish("az/ultrasonic_ranger1", sensor_1)
+        client.publish("az/ultrasonic_ranger2", sensor_2)
+        print("Sensor 1:", sensor_1, " ........ Sensor 2:", sensor_2 )
+        time.sleep(.2)
+>>>>>>> 3862d01635ebaf6c24294fbb265bb61dca71889e
+>>>>>>> 6df2931d341a3647d66853f9d31bb783f6f410e3

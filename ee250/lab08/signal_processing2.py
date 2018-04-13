@@ -14,48 +14,54 @@ MAX_LIST_LENGTH = 5
 ranger1_dist = []
 ranger2_dist = []
 
-
+#moving average buffers
 ranger1_avg = []
 ranger2_avg = []
 
-count_1 = 0
-count_2 = 0
-
+#ranger states
 ranger1_state = 0
 ranger2_state = 0
 
 def ranger1_callback(client, userdata, msg):
     global ranger1_dist
     global ranger1_avg
-    global count_1
-    count_1 = count_1 + 1
-    cuttoff_1 = int(msg.payload)
 
-    if cuttoff_1 >= 200:
-        cuttoff_1 = 200
+    number = int(msg.payload)
+    if(number > 125):
+    	number = 125
 
-
-    ranger1_dist.append(cuttoff_1)
+    ranger1_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger1_dist = ranger1_dist[-MAX_LIST_LENGTH:]
 
+    #adding variables into the moving average buffer
+    avg = 0
+    for i in ranger1_dist:
+        avg += i
+    avg /= MAX_LIST_LENGTH
+    ranger1_avg.append(avg)
+    ranger1_avg = ranger1_avg[-MAX_LIST_LENGTH:]
 
 def ranger2_callback(client, userdata, msg):
     global ranger2_dist
     global ranger2_avg
-    global count_2
-    count_2 = count_2 + 1
-    cuttoff_2 = int(msg.payload)
-
-    if cuttoff_2 >= 200:
-        cuttoff_2 = 200
 
 
-    ranger2_dist.append(cuttoff_2)
+    number = int(msg.payload)
+    if(number > 125):
+    	number = 125
+
+    ranger2_dist.append(number)
     #truncate list to only have the last MAX_LIST_LENGTH values
     ranger2_dist = ranger2_dist[-MAX_LIST_LENGTH:]
-    
 
+    #adding variables into the moving average buffer
+    avg = 0
+    for i in ranger2_dist:
+        avg += i
+    avg /= MAX_LIST_LENGTH
+    ranger2_avg.append(avg)
+    ranger2_avg = ranger2_avg[-MAX_LIST_LENGTH:]
 
 
 
@@ -81,8 +87,8 @@ if __name__ == '__main__':
     client.connect(broker_hostname, broker_port, 60)
     client.loop_start()
 
-    ranger1_dist = [0] * 100
-    ranger2_dist = [0] * 100
+    ranger1_avg = [0] * MAX_LIST_LENGTH
+    ranger2_avg = [0] * MAX_LIST_LENGTH
 
     while True:
         """ You have two lists, ranger1_dist and ranger2_dist, which hold a window
@@ -98,77 +104,60 @@ if __name__ == '__main__':
 
 
         #proccessing data 1
-        current_count = count_1 + 1
-        current_numb = ranger1_dist[MAX_LIST_LENGTH - current_count]
+        current_numb = ranger1_avg[MAX_LIST_LENGTH - 1]
         slope_1 = 0
-        for i in range (1, current_count + 1):
-            slope_1 += ranger1_dist[MAX_LIST_LENGTH - i]
-        slope_1 /= current_count
-        count_1 = 0
+        for i in ranger1_avg:
+            slope_1 += i
+        slope_1 /= MAX_LIST_LENGTH
 
         #analyzing data
-        if(current_count != 1):
-            if (-2 <= ((((slope_1)  * current_count) - current_numb) / (current_count - 1)) - current_numb  <= 2) :
-                ranger1_state = 0
-            elif slope_1 < current_numb:
-                ranger1_state = 1
-            else:
-                ranger1_state = -1
+     
+        if (-10 <= slope_1 - current_numb <= 10) :
+            ranger1_state = 0
+        elif slope_1 < current_numb:
+            ranger1_state = 1
         else:
-            if (-2 <= slope_1 - current_numb <=2):
-                ranger1_state = 0
-            elif slope_1 < current_numb:
-                ranger1_state = 1
-            else:
-                ranger1_state = -1
+            ranger1_state = -1
 
         #proccessing data 2
-        current_count = count_2 + 1
-        current_numb = ranger2_dist[MAX_LIST_LENGTH - current_count]
+        
         slope_2 = 0
-        for i in range (1, current_count + 1):
-            slope_2 += ranger2_dist[MAX_LIST_LENGTH - i]
-        slope_2 /= current_count
-        count_2 = 0
+        current_numb = ranger2_avg[MAX_LIST_LENGTH - 1]
+        for i in ranger2_avg:
+            slope_2 += i
+        slope_2 /= MAX_LIST_LENGTH
+
 
         #analyzing data
-        if(current_count != 1):
-            if (2 <= ((((slope_2)  * current_count) - current_numb) / (current_count - 1)) - current_numb  <= 2) :
-                ranger2_state = 0
-            elif slope_2 < current_numb:
-                ranger2_state = 1
-            else:
-                ranger2_state = -1
+        if (-10 <= slope_2 - current_numb  <= 10) :
+           ranger2_state = 0
+        elif slope_2 < current_numb:
+           ranger2_state = 1
         else:
-            if (-2 <= slope_2-current_numb <=2):
-                ranger2_state = 0
-            elif slope_2 < current_numb:
-                ranger2_state = 1
-            else:
-                ranger2_state = -1
+           ranger2_state = -1
 
 
         #final data analysis
 
         #walking close toward ranger1
-        if(ranger1_state == 1):
+        if(ranger1_state == 1 or ranger2_state == -1):
             print("Walking Left")
         #walking toward ranger 2
-        elif(ranger2_state == 1):
+        elif(ranger2_state == 1 or ranger1_state == -1):
             print("Walking Right")
         #standing still
         elif(ranger1_state == 0 and ranger2_state == 0):
             #standing middle
-            if(-10 <= slope_1 - slope_2 <=10):
+            if(-20 <= slope_1 - slope_2 <= 20):
                 print("Standing Still, Middle")
             #standing on right
             elif(slope_1 > slope_2):
-                print("Standing Still, Right")
+                print("Standing Still, Left")
             #standing on left
             elif(slope_2 > slope_1):
-                print("Standing Still, Left")
+                print("Standing Still, Right")
         
-        print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
-            str(ranger2_dist[-1:])) 
+        #print("ranger1: " + str(ranger1_dist[-1:]) + ", ranger2: " + 
+            #str(ranger2_dist[-1:])) 
         
         time.sleep(0.2)
