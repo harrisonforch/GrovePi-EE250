@@ -10,7 +10,7 @@ ultrasonic_ranger2_topic = "ultrasonic_ranger2"
 # Lists holding the ultrasonic ranger sensor distance readings. Change the 
 # value of MAX_LIST_LENGTH depending on how many distance samples you would 
 # like to keep at any point in time.
-MAX_LIST_LENGTH = 100
+MAX_LIST_LENGTH = 5
 ranger1_dist = []
 ranger2_dist = []
 
