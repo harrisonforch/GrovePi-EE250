@@ -27,8 +27,10 @@ def led_callback(client, userdata, message):
 	if str(message.payload, "utf-8")=="toggle":
 		if led_status == 0:
 			led_status=1
+			print("led on")
 		else:
 			led_status=0
+			print("led off")
 	digitalWrite(led,led_status)
 
 def lcd_callback(client, userdata, message):
@@ -49,6 +51,7 @@ if __name__ == '__main__':
 	while (True):
 		try:
 			[temp,hum] = dht(dht_sensor_port,1)
+			print("temp: "+temp+" hum: "+hum)
 			client.publish("anrg-pi13/temperature", temp)
 			client.publish("anrg-pi13/humidity", hum)
 			time.sleep(1)
