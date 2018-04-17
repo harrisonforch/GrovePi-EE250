@@ -51,7 +51,7 @@ if __name__ == '__main__':
 	while (True):
 		try:
 			[temp,hum] = dht(dht_sensor_port,1)
-			print("temp: "+temp+" hum: "+hum)
+			print("temp: "+str(temp)+" hum: "+str(hum))
 			client.publish("anrg-pi13/temperature", temp)
 			client.publish("anrg-pi13/humidity", hum)
 			time.sleep(1)
