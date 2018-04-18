@@ -51,6 +51,9 @@ if __name__ == '__main__':
 	client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
 	client.loop_start()
 
+
+	setRGB(0,255,0)
+
 	while (True):
 		try:
 			[temp,hum] = dht(dht_sensor_port,1)
