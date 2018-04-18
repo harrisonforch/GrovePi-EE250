@@ -36,6 +36,7 @@ def led_callback(client, userdata, message):
 	digitalWrite(led,led_status)
 
 def lcd_callback(client, userdata, message):
+	print("message recieved")
 	message = str(message.payload, "utf-8");
 	setText(message)
 def on_message(client, userdata, msg):
