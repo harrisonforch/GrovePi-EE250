@@ -24,7 +24,8 @@ def on_connect(client, userdata, flags, rc):
 	client.message_callback_add("anrg-pi3/lcd", lcd_callback)
 
 def led_callback(client, userdata, message):
-	print(str(message.payload))
+	print(str(message.payload,"utf-8"))
+	print("test")
 	if str(message.payload, "utf-8")=="toggle":
 		if led_status == 0:
 			led_status=1
