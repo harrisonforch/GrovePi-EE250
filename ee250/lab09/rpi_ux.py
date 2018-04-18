@@ -24,8 +24,8 @@ def on_connect(client, userdata, flags, rc):
 	client.message_callback_add("anrg-pi13/lcd", lcd_callback)
 
 def led_callback(client, userdata, message):
-	print(str(message.payload,"utf-8"))
 	print("test")
+	print(str(message.payload,"utf-8"))
 	if str(message.payload, "utf-8")=="toggle":
 		if led_status == 0:
 			led_status=1
@@ -59,7 +59,6 @@ if __name__ == '__main__':
 			[temp,hum] = dht(dht_sensor_port,1)
 			t=str(temp)
 			h=str(hum)
-			print("temp: "+str(temp)+" hum: "+str(hum))
 			client.publish("anrg-pi13/temperature", t)
 			client.publish("anrg-pi13/humidity", h)
 			time.sleep(1)
