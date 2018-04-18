@@ -57,9 +57,11 @@ if __name__ == '__main__':
 	while (True):
 		try:
 			[temp,hum] = dht(dht_sensor_port,1)
+			t=str(temp)
+			h=str(hum)
 			print("temp: "+str(temp)+" hum: "+str(hum))
-			client.publish("anrg-pi13/temperature", temp)
-			client.publish("anrg-pi13/humidity", hum)
+			client.publish("anrg-pi13/temperature", t)
+			client.publish("anrg-pi13/humidity", h)
 			time.sleep(1)
 		except (IOError, TypeError) as e:
 			print("Error")
